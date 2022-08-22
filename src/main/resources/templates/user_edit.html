@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User edit</title>
+</head>
+<body>
+<form th:action="@{/user}" method="POST">
+    <div><label> Ім'я   : <input type="text" name="username"/> </label></div>
+    <div><label> Пароль: <input type="password" name="password"/> </label></div>
+    <ul>
+        <li th:each="role : ${roles}">
+            <label th:text="${role}">ROLE_USER</label>
+            <input type="checkbox" th:name="${role}" th:value="${role}" th:checked="${user.roles.contains(role)}" />
+        </li>
+    </ul>
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div><input type="submit" value="Зберегти зміни"/></div>
+</form>
+</body>
+</html>

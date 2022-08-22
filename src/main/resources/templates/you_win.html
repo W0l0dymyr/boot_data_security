@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>You win</title>
+</head>
+<body>
+<h1 th:inline="text">Вітаю [[${#httpServletRequest.remoteUser}]]! ти виграв</h1>
+<h1 th:text="${count}"></h1>
+<a th:href="@{/menu}">Головне меню</a>
+<br/>
+<a th:href="@{/play}">Грати знов</a>
+</body>
+</html>

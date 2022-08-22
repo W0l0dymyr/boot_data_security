@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Best</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Best record</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getUsername}">username</td>
+        <td th:text="${user.getRecord}">record</td>
+    </tr>
+</table>
+<br/>
+<a th:href="@{/menu}">Головне меню</a>
+</body>
+</html>

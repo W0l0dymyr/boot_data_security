@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Try again</title>
+</head>
+<body>
+<form th:method = "GET" th:action = "@{/save_used}" th:object = "${city}">
+  <label for = "title">Введи назву міста</label>
+  <input type="text" th:field = "*{title}" id="title"/>
+  <br/>
+  <input type="submit" value="Підтвердити"/>
+</form>
+Таке місто вже використалося або ти місто починається на іншу літеру
+<p th:text="${botsCity}">city</p>
+<br/>
+<a th:href="@{/menu}">Головне меню</a>
+</body>
+</html>

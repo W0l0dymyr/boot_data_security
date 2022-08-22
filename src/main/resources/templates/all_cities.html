@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<a th:href="@{/play}">Грати</a>
+<br/>
+<a th:href="@{/menu}">Головне меню</a>
+<br/>
+<hr/>
+<!--<a th:text="Hello!">hello</a>-->
+<div th:each="city:${cities}">
+    <a th:text="${city.getTitle()}">city</a>
+</div>
+</body>
+</html>
