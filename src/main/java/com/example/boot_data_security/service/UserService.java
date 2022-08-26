@@ -10,8 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -23,8 +26,8 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsername(username);
     }
 
-    public User findById(int id){
-        return userRepo.findById(id);
+    public User findById(Long id){
+        return userRepo.findById(id).get();
     }
 
     public void setRecord(int count) {
@@ -50,5 +53,19 @@ public class UserService implements UserDetailsService {
 
     public Role[] getRoles(){
         return Role.values();
+    }
+
+    public void update(User updatedUser, Long id, Map<String, String> form){
+        User userToBeUpdated = userRepo.findById(id).get();
+        userToBeUpdated.setPassword(updatedUser.getPassword());
+        userToBeUpdated.setUsername(updatedUser.getUsername());
+      Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
+      userToBeUpdated.getRoles().clear();
+      for(String key:form.keySet()){
+          if(roles.contains(key)){
+              userToBeUpdated.getRoles().add(Role.valueOf(key));
+          }
+      }
+        userRepo.save(userToBeUpdated);
     }
 }
