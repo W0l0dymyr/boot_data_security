@@ -6,6 +6,7 @@ import com.example.boot_data_security.entities.User;
 import com.example.boot_data_security.service.CityService;
 import com.example.boot_data_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,10 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.spring5.expression.Fields;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 @Controller
 public class GreetingController {
@@ -25,6 +30,9 @@ public class GreetingController {
     @Autowired
     private UserService userService;
     private int count;
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @GetMapping("/")
     public String main() {
@@ -36,17 +44,59 @@ public class GreetingController {
         return "menu";
     }
 
+    @GetMapping("/add_city")
+    public String addCity(){
+        return "add_city";
+    }
+
+    @PostMapping("/save_new_city")
+    public String saveCity(@ModelAttribute City city, Model model, @RequestParam ("file")MultipartFile multipartFile) throws IOException {
+        City cityFromDB = cityService.findByTitle(city.getTitle());
+        if(cityFromDB!=null){
+         model.addAttribute("message", "Бот вже знає таке місто");
+         return "add_city";
+        }
+        if(multipartFile!=null){
+            File uploadDir = new File(uploadPath);
+            if(!uploadDir.exists()){
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + ".jpg";//+ multipartFile.getOriginalFilename();
+            multipartFile.transferTo(new File(uploadPath+"/" +resultFilename));
+
+
+            city.setFilename(resultFilename);
+        }
+        cityService.save(city);
+        model.addAttribute("message", "Місто успішно додано");
+        Iterable<City> cities = cityService.findAll();
+        model.addAttribute("cities", cities);
+        return "all_cities";
+    }
+
     @GetMapping("/all_cities")
     public String allCities(Model model) {
         Iterable<City> cities = cityService.findAll();
         model.addAttribute("cities", cities);
+        //model.addAttribute("file", multipartFile);
+
         return "all_cities";
+    }
+
+    @GetMapping("/city/{id}")
+    public String showCity(@PathVariable ("id") Integer id, Model model){
+        model.addAttribute("city", cityService.findById(id));
+        return "city";
     }
 
     @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
+
+
 
     @PostMapping("/registration")
     public String addUser(User user, Model model) {  // реєстрація

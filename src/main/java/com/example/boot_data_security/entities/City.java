@@ -17,6 +17,12 @@ public class City {
     @Column(name = "country")
     private String country;
 
+    private String filename;
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public City() {
     }
 
@@ -41,6 +47,10 @@ public class City {
         return title;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -61,4 +71,6 @@ public class City {
                 ", country='" + country + '\'' +
                 '}';
     }
+
+
 }

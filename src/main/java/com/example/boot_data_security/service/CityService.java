@@ -30,6 +30,14 @@ public class CityService {
         return cityRepository.findAll();
     }
 
+    public City findByTitle(String title){
+       return cityRepository.findByTitle(title);
+    }
+
+    public City findById(Integer id){
+        return cityRepository.findById(id).get();
+    }
+
     public void save(City city) {
         if (cityRepository.getCity(city.getTitle()) == null) {
             cityRepository.save(city);

@@ -11,12 +11,17 @@
 </form>
 <a th:href="@{/play}">Грати</a>
 <br/>
+<a th:href="@{/add_city}">Додати нове місто</a>
+<br/>
 <a th:href="@{/menu}">Головне меню</a>
 <br/>
+<p th:text="${message}"></p>
+
 <hr/>
 <!--<a th:text="Hello!">hello</a>-->
 <div th:each="city:${cities}">
-    <a th:text="${city.getTitle()}">city</a>
+    <a th:href="@{/city/{id}(id=${city.getId()})}" th:text="${city.getTitle()}">city</a>
+<!--    <img th:src="@{/img/{filename}(filename = ${city.filename})}">-->
 </div>
 </body>
 </html>
