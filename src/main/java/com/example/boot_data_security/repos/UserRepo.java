@@ -24,4 +24,8 @@ import java.util.Optional;
     List<User> findAll();
 
     Optional<User> findById(Long id);
+
+    User findByActivationCode(String code);
+
+    User findByEmail(String username);
 }

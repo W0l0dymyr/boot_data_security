@@ -91,26 +91,7 @@ public class GreetingController {
         return "city";
     }
 
-    @GetMapping("/registration")
-    public String registration() {
-        return "registration";
-    }
 
-
-
-    @PostMapping("/registration")
-    public String addUser(User user, Model model) {  // реєстрація
-        User userFromDb = userService.findByUsername(user.getUsername());    //шукаємо в бд чи є корстувач з таким іменем
-
-        if (userFromDb != null) {
-            model.addAttribute("message", "Такий користувач вже існує"); //якщо вже є, то вертає назад
-            return "registration";
-        }
-        user.setActive(true);    // якщо користувача з таки іменем немає, то сетимо йому поля і зберігаємо
-        user.setRoles(Collections.singleton(Role.USER));
-        userService.save(user);
-        return "redirect:/login";
-    }
 
     @GetMapping("/play")
     public String enterCity(@ModelAttribute("city") City city, Model model) {

@@ -11,6 +11,7 @@
 <div th:if="${param.logout}">
   Ти вийшов з акаунту.
 </div>
+<p th:text="${message}"></p>
 <form th:action="@{/login}" method="POST">
   <div><label> Ім'я : <input type="text" name="username"/> </label></div>
   <div><label> Пароль: <input type="password" name="password"/> </label></div>
