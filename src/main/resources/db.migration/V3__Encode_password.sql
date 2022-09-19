@@ -1,0 +1,1 @@
+update users set pasword = MD5(password);

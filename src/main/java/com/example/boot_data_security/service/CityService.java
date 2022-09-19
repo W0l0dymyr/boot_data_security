@@ -34,7 +34,7 @@ public class CityService {
        return cityRepository.findByTitle(title);
     }
 
-    public City findById(Integer id){
+    public City findById(Long id){
         return cityRepository.findById(id).get();
     }
 

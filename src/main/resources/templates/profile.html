@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<p th:text="${message}"></p>
+<a th:text="${username}">username</a>
+<a th:href="@{/user/update_username}">Змінити</a>
+<br/>
+<a th:text="${email}">email</a>
+<a th:href="@{/user/update_email}">Змінити</a>
+<br/>
+<a th:href="@{/user/update_password}">Змінити пароль</a>
+
+<!--<p th:text="${message}"></p>-->
+
+<!--<form  method="POST">-->
+<!--    <div><label> Пароль: <input type="password" name="password"/> </label></div>-->
+<!--    <div><label> Email: <input type="email" name="email" value="${email}"/> </label></div>-->
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+<!--    <div><input type="submit" value="Редаґувати"/></div>-->
+<!--</form>-->
+<br/>
+<a th:href="@{/menu}">Назад</a>
+</body>
+</html>

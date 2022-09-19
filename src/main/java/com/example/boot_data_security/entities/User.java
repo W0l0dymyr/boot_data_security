@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,16 +18,23 @@ import java.util.Set;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotEmpty(message = "Ім'я не може бути порожнім")
+    @Size(min = 2, max = 30, message = "Ім'я повинно містити від 2 до 30 символів")
     @Column(name = "username")
     private String username;
-
+    @Size(min = 6, message = "Пароль повинен містити щонайменше 6 символів")
+    @NotEmpty(message = "Пароль не може бути порожнім")
     private String password;
+
+    @Transient
+    private String password2;
 
     @Column(name="record")
     private int record = 0;
-
+    @NotEmpty(message = "Email не може бути порожнім")
+@Email(message = "Неправильно введений email")
     private String email;
 
     private String activationCode;
@@ -46,6 +54,10 @@ public class User implements UserDetails {
         this.record = record;
         this.active = active;
         this.roles = roles;
+    }
+
+    public User(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
@@ -131,5 +143,13 @@ public class User implements UserDetails {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 }

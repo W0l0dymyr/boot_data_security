@@ -5,21 +5,44 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<!--<div th:if="${param.error}">-->
-<!--    Неправильне ім'я чи пароль.-->
-<!--</div>-->
-<!--<div th:if="${param.logout}">-->
-<!--    Ти вийшов з акаунту.-->
-<!--</div>-->
 Реєстрація
-<p th:text="${message}"></p>
-<form th:action="@{/registration}" method="POST">
-    <div><label> Ім'я : <input type="text" name="username"/> </label></div>
+<p style="color:blue" th:text="${message}"></p>
+
+<form th:action="@{/registration}" th:object="${user}" method="POST" >
+    <label for="username">Iм'я: </label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>
     <div><label> Пароль: <input type="password" name="password"/> </label></div>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</div>
+    <div><label> Повторіть пароль: <input type="password" name="password2"/> </label></div>
+    <p style="color:red" th:text="${passwordError}"></p>
     <div><label> Email: <input type="email" name="email"/> </label></div>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</div>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <div><input type="submit" value="Sign Up"/></div>
 </form>
+<!--<form action="#" th:action="@{/registration}" th:object="${user}"  method="post">-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <td>Name:</td>-->
+<!--            <td><input type="text" th:field="*{username}" /></td>-->
+<!--            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Password:</td>-->
+<!--            <td><input type="password" th:field="*{password}" /></td>-->
+<!--            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Age Error</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Email:</td>-->
+<!--            <td><input type="email" th:field="*{email}" /></td>-->
+<!--            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Age Error</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><button type="submit">Submit</button></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</form>-->
 Після того, як ти зареєструєшся, тебе перекине на попередню сторінку і зможеш ввійти в свій акаунт
 </body>
 </html>

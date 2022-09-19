@@ -86,7 +86,7 @@ public class GreetingController {
     }
 
     @GetMapping("/city/{id}")
-    public String showCity(@PathVariable ("id") Integer id, Model model){
+    public String showCity(@PathVariable ("id") Long id, Model model){
         model.addAttribute("city", cityService.findById(id));
         return "city";
     }
