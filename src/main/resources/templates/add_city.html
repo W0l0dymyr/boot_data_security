@@ -6,12 +6,11 @@
 </head>
 Додай нове місто
 <body>
-<p th:text="${message}"></p>
+<p style="color:red" th:text="${message}"></p>
 <form th:action="@{/save_new_city}" method="POST" enctype="multipart/form-data">
     <div><label> Місто : <input type="text" name="title"/> </label></div>
     <div><label> Країна: <input type="text" name="country"/> </label></div>
     <input type="file" name="file">
-<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
     <div><input type="submit" value="Додати"/></div>
 </form>
 <a th:href="@{/all_cities}">Назад</a>

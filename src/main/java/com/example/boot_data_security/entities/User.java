@@ -1,16 +1,13 @@
 package com.example.boot_data_security.entities;
 
-import com.example.boot_data_security.repos.CityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.ArrayList;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
@@ -31,10 +28,10 @@ public class User implements UserDetails {
     @Transient
     private String password2;
 
-    @Column(name="record")
+    @Column(name = "record")
     private int record = 0;
     @NotEmpty(message = "Email не може бути порожнім")
-@Email(message = "Неправильно введений email")
+    @Email(message = "Неправильно введений email")
     private String email;
 
     private String activationCode;

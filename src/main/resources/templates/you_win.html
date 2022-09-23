@@ -5,7 +5,7 @@
     <title>You win</title>
 </head>
 <body>
-<h1 th:inline="text">Вітаю [[${#httpServletRequest.remoteUser}]]! ти виграв</h1>
+<h1 style="color:green" th:inline="text">Вітаю [[${#httpServletRequest.remoteUser}]]! ти виграв</h1>
 <h1 th:text="${count}"></h1>
 <a th:href="@{/menu}">Головне меню</a>
 <br/>

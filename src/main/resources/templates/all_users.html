@@ -15,7 +15,6 @@
     <tr th:each="user : ${users}">
         <td th:text="${user.getUsername}">username</td>
         <td th:text="${user.getRoles}">roles</td>
-<!--        <td><a th:href="@{/user/{user}}">edit</a></td>-->
         <td><a th:href="@{/user/{id}(id=${user.getId()})}">edit</a></td>
 
     </tr>

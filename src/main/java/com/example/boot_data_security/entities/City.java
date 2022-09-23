@@ -1,6 +1,5 @@
 package com.example.boot_data_security.entities;
 
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.*;
 

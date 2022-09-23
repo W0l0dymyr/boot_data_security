@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-//public interface UserRepo  {
     public interface UserRepo extends JpaRepository<User, Long> {
     User findByUsername(String username);
     @Query(value = "select record from users" ,nativeQuery = true)
