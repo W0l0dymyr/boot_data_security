@@ -83,14 +83,20 @@ public class UserService implements UserDetailsService {
         return userFromDbByName != null && userFromDbEmail != null;
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         LOGGER.info("Adding a new user");
+        User userFromDbByName = userRepo.findByUsername(user.getUsername());
+        User userFromDbByEmail = userRepo.findByEmail(user.getEmail());
+        if(userFromDbByName!=null||userFromDbByEmail!=null){
+            return false;
+        }
         user.setActive(false);    // якщо користувача з таки іменем немає, то сетимо йому поля і зберігаємо
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         sendMessage(user, "Щоб підтвердити реєстрацію у грі \"Міста\"", "activate_for_registration/%s");
+        return true;
     }
 
     public void save(User user) {

@@ -6,7 +6,7 @@
 </head>
 <body>
 Реєстрація
-<p style="color:blue" th:text="${message}"></p>
+<p style="color:red" th:text="${message}"></p>
 
 <form th:action="@{/registration}" th:object="${user}" method="POST" >
     <label for="username">Iм'я: </label>

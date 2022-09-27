@@ -38,8 +38,12 @@ public class RegistrationController {
             return "registration";
         }
         LOGGER.info("Calling the 'addUser' method");
-        userService.addUser(user);
-        return "redirect:/login";
+        if(userService.addUser(user)) {
+            return "redirect:/login";
+        }else {
+            model.addAttribute("message", "Користувач з таким іменем або email вже існує");
+            return "registration";
+        }
 
     }
 
