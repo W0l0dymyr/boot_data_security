@@ -1,5 +1,6 @@
 package com.example.boot_data_security.service;
 
+import com.example.boot_data_security.entities.City;
 import com.example.boot_data_security.entities.Role;
 import com.example.boot_data_security.entities.User;
 import com.example.boot_data_security.repos.UserRepo;
@@ -41,6 +42,9 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public void makeUsedCity(User user, City city){
+        user.getUsedCities().add(city);
+    }
     public User findById(Long id) {
         LOGGER.info("Finding the user by id");
         return userRepo.findById(id).get();

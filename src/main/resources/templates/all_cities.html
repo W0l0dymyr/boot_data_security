@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
     <title>Getting Started: Serving Web Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
@@ -15,11 +16,24 @@
 <br/>
 <a th:href="@{/menu}">Головне меню</a>
 <br/>
+
 <p style="color:green" th:text="${message}"></p>
 
 <hr/>
-<div th:each="city:${cities}">
+<div th:each="city:${pageCities.content}">
     <a th:href="@{/city/{id}(id=${city.getId()})}" th:text="${city.getTitle()}">city</a>
 </div>
+
+<ul class="pagination" th:if="${pageCities.totalPages > 0}">
+    <li th:each="pageNumber : ${numbers}"
+        th:class="${pageNumber==pageCities.number} ? active">
+        <a th:href="@{'/all_cities?page=' + ${pageNumber}}"
+           th:text="${pageNumber + 1}"></a>
+    </li>
+</ul>
+
+
+
+
 </body>
 </html>
