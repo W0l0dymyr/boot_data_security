@@ -41,7 +41,10 @@ public class MainController {
     }
 
     @GetMapping("/menu")
-    public String menu() {
+    public String menu(@AuthenticationPrincipal User user) {
+        if (user.getUsedCities().size() > 0) {
+            user.getUsedCities().clear();
+        }
         LOGGER.info("Getting view the menu page");
         return "menu";
     }
@@ -120,6 +123,7 @@ public class MainController {
                 LOGGER.info("Bot named city " + botsCity.getTitle());
                 System.out.println(botsCity.getTitle());
                 model.addAttribute("botsCity", botsCity);
+
                 return "play";
             }
         }
@@ -127,54 +131,52 @@ public class MainController {
     }
 
     @GetMapping("/save_used")
-    public String saveInstance(@ModelAttribute("city") @Valid City city,
-                               @AuthenticationPrincipal User user, BindingResult bindingResult, Model model) {
+    public String saveCity(@ModelAttribute("city") @Valid City city,
+                               @AuthenticationPrincipal User user, BindingResult bindingResult, Model model) throws IOException {
         LOGGER.info("Saving the name of the city entered by player");
+
         if (bindingResult.hasErrors()) {
             LOGGER.debug("Error during entering the name of the city");
             return "play";
         }
-        if (user.getUsedCities().size() == 0) {
-            userService.makeUsedCity(user, city);
-            cityService.save(city);
-            return "redirect:/play";
-        } else {
-            if (city.getTitle().startsWith(cityService.getLastLetter(user).toUpperCase())) {
-                return checkIfCityIsUnused(user, model, city);
+        if (cityService.checkIfCityExists(city.getTitle(), "https://uk.wikipedia.org/wiki/")) {
+
+            if (user.getUsedCities().size() == 0) {
+                userService.makeUsedCity(user, city);
+                cityService.save(city);
+
+                return "redirect:/play";
             } else {
-                LOGGER.debug(city.getTitle() + " does not start with " + cityService.getLastLetter(user));
-                City botsCity = user.getUsedCities().get(user.getUsedCities().size() - 1);
-                model.addAttribute("botsCity", botsCity.getTitle());
-                return "tryagain";
+               return cityService.checkingIfCityMatches(user, model, city);
             }
+        } else {
+            return "tryagain";
+
         }
     }
-
     @GetMapping("/tryagain")
     public String tryagain(@ModelAttribute("city") City city) {
         LOGGER.info("Getting view 'try again'");
         return "tryagain";
     }
 
-    private String checkIfCityIsUnused(User user, Model model, City city) {
-        if (user.getUsedCities().stream().anyMatch(c -> c.getTitle().equals(city.getTitle()))) {
-            LOGGER.debug(city.getTitle() + " is used");
-            City botsCity = user.getUsedCities().get(user.getUsedCities().size() - 1);
-            model.addAttribute("botsCity", botsCity.getTitle());
-            return "tryagain";
-        } else {
-            LOGGER.info(city.getTitle() + " is not used");
-            userService.makeUsedCity(user, city);
-            cityService.save(city);
-            return "redirect:/play";
-        }
-    }
+
 
     @GetMapping("/best_results")
     public String bestResults(Model model) {
         LOGGER.info("Getting view the best results");
         model.addAttribute("users", userService.allUsers());
         return "/best_results";
+    }
+
+    @GetMapping("/to_lose")
+    public String toLose(@AuthenticationPrincipal User user, Model model) {
+        LOGGER.info("Getting view the losing");
+        user.getUsedCities().clear();
+        model.addAttribute("count", "Ти зміг назвати "+count+" населених пунктів");
+        Integer bestResult=userService.allUsers().stream().mapToInt(User::getRecord).max().getAsInt();
+         model.addAttribute("bestResult", "На разі найкращий результат "+bestResult);
+        return "/to_lose";
     }
 
 }

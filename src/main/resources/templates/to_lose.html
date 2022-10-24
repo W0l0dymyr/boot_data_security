@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>To lose</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+<h1 style="color:red" th:inline="text">[[${#httpServletRequest.remoteUser}]] ти програв</h1>
+<h1 th:text="${count}"></h1>
+<h2 th:text="${bestResult}"></h2>
+<a th:href="@{/menu}">Головне меню</a>
+<br/>
+<a th:href="@{/play}">Грати знов</a>
+</body>
+</html>

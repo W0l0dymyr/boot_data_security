@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String password2;
 
     @Column(name = "record")
-    private int record = 0;
+    private Integer record = 0;
     @NotEmpty(message = "Email не може бути порожнім")
     @Email(message = "Неправильно введений email")
     private String email;
@@ -119,11 +119,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public int getRecord() {
+    public Integer getRecord() {
         return record;
     }
 
-    public void setRecord(int record) {
+    public void setRecord(Integer record) {
         this.record = record;
     }
 
@@ -158,4 +158,6 @@ public class User implements UserDetails {
     public List<City> getUsedCities() {
         return usedCities;
     }
+
+
 }
